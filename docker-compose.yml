@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:8.0
+    container_name: macrodatos_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: servicio_social_db
+    ports:
+      - "3306:3306"
+    restart: always
+
+  api:
+    build: ./backend-api
+    container_name: macrodatos_api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/servicio_social_db?useSSL=false&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  web:
+    build: ./frontend-web
+    container_name: macrodatos_web
+    ports:
+      - "8081:8080" # Mapea el 8081 de tu compu al 8080 del contenedor
+    depends_on:
+      - api
