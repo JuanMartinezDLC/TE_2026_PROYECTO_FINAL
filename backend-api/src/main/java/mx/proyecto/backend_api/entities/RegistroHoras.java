@@ -1,4 +1,4 @@
-package mx.proyecto.backend_api.models;
+package mx.proyecto.backend_api.entities;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
